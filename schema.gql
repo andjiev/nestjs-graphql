@@ -2,11 +2,19 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateUser {
+  age: Float!
+  name: String!
+}
+
+type Mutation {
+  createUser(model: CreateUser!): User!
+}
+
 type Query {
   getUsers: [User!]!
 }
 
-"""user"""
 type User {
   age: Float!
   id: Float!

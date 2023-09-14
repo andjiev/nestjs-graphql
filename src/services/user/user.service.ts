@@ -1,22 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { IUser } from 'src/models';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CreateUser, User } from 'src/models';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
-    getUsers(): IUser[] {
-        const users: IUser[] = [
-            {
-                id: 1,
-                name: 'User 1',
-                age: 20
-            },
-            {
-                id: 2,
-                name: 'User 2',
-                age: 25
-            }
-        ];
+    constructor(
+        @InjectRepository(User) private readonly repository: Repository<User>
+    ) { }
 
-        return users;
+    getUsers(): Promise<User[]> {
+        return this.repository.find();
+    }
+
+    createUser(model: CreateUser): Promise<User> {
+        const user: User = new User();
+        user.name = model.name;
+        user.age = model.age;
+        return this.repository.save(user);
     }
 }
